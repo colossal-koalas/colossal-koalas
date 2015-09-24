@@ -1,0 +1,22 @@
+<div ng-controller="HomeController">
+
+  <div ui-view="initial"></div>
+
+  <!-- Spectrum stays on screen -->
+    <ul class="emotion-spectrum"> 
+
+      <li class="emoji" ng-click="selectHandler($event)" data-emotion-id="0"><button>😄</button></li>
+      <li class="emoji" ng-click="selectHandler($event)" data-emotion-id="1"><button>😊</button></li>
+      <li class="emoji" ng-click="selectHandler($event)" data-emotion-id="2"><button>😌</button></li>
+      <li class="emoji" ng-click="selectHandler($event)" data-emotion-id="3"><button>😐</button></li>
+      <li class="emoji" ng-click="selectHandler($event)" data-emotion-id="4"><button>😕</button></li>
+      <li class="emoji" ng-click="selectHandler($event)" data-emotion-id="5"><button>😒</button></li>
+      <li class="emoji" ng-click="selectHandler($event)" data-emotion-id="6"><button>😞</button></li>
+      <li class="emoji" ng-click="selectHandler($event)" data-emotion-id="7"><button>😣</button></li>
+
+   </ul>
+
+
+   <div ui-view="selected"></div>
+
+ </div>
