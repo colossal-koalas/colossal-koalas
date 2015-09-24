@@ -1,0 +1,21 @@
+{
+  "name": "project greenfeels",
+  "version": "0.0.0",
+  "homepage": "https://github.com/colossal-koalas/colossal-koalas",
+  "authors": [
+    "camhux <camzig@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.6",
+    "angular-ui-router": "~0.2.15",
+    "d3": "~3.5.6"
+  }
+}

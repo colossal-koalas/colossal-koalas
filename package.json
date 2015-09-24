@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/colossal-koalas/colossal-koalas/issues"
   },
-  "homepage": "https://github.com/colossal-koalas/colossal-koalas#readme"
+  "homepage": "https://github.com/colossal-koalas/colossal-koalas#readme",
+  "dependencies": {
+    "bower": "^1.5.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
 }
