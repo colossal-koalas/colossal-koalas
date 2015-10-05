@@ -84,9 +84,8 @@ angular.module('greenfeels.services', [])
     });
   };
 
-  var methodEntry = function(method) {
-    return function(id, body) {
-      '/:username/entries/:entryid'
+  var methodEntry = function(method){
+    return function(id,data){
       var username = $window.localStorage.getItem('moodlet.username');
       if (!username) {
         return;
@@ -95,7 +94,7 @@ angular.module('greenfeels.services', [])
         method: method,
         url: '/api/users/' + username + '/' + 'entries' + '/' + id,
         headers: {'x-access-token': $window.localStorage.getItem('moodlet')},
-        body: body
+        data:data
       })
       .then(function(resp) {
         return resp.data;
