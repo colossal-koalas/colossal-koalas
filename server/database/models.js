@@ -115,3 +115,29 @@ exports.Prompt = {
   options: {}
 
 };
+
+exports.Word = {
+
+  attributes: {
+
+    word: Sequelize.STRING,
+
+    averageSentiment: Sequelize.FLOAT,
+
+    frequency: Sequelize.INTEGER,
+
+    emotion: Sequelize.INTEGER,
+
+    id: {
+
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+
+    }
+
+  },
+
+  options: {}
+
+};

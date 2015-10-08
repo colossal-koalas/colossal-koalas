@@ -1,6 +1,7 @@
 var jwt = require('jsonwebtoken');
 var secret = process.env.TOKEN_SECRET;
 
+var fs = require('fs');
 var db = require('./database/interface');
 var router = require('express').Router();
 var app = require('./server'); //required server so we could have access to the secret set in server.js
@@ -123,7 +124,7 @@ var pathHandlers = {
       if (!lastSeen) {
         options = {limit: 20, order:[['createdAt', 'DESC']]};
       } else {
-        options = {where: {createdAt: {$lt: lastSeen}}, limit: 20, order: [['createdAt', 'DESC']]}
+        options = {where: {createdAt: {$lt: lastSeen}}, limit: 20, order: [['createdAt', 'DESC']]};
       }
 
       db.User.findOne({where: {name: req.params.username}})
@@ -145,6 +146,17 @@ var pathHandlers = {
           if (!user) {
             res.sendStatus(404);
           } else {
+
+            // toQueue object stages the information to be written to the queue directory
+            var toQueue = {
+              userId: user.id,
+              text: req.body.text,
+              emotion: req.body.emotion
+            };
+
+            // queue directory is used to make calls to Alchemy API on separate worker
+            fs.writeFile('./queue/' + Date.now(), JSON.stringify(toQueue));
+
             db.Entry.create({
               emotion: req.body.emotion,
               text: req.body.text,
@@ -200,6 +212,53 @@ var pathHandlers = {
           res.status(400).send(err);
         });
     }
+  },
+
+  '/:username/words/:emotion': {
+
+    get: function(req, res) {
+      // db.Word.findAll( 
+      //   include: [{
+      //     model: User,
+      //     where: { username: req.params.username, emotion: req.params.emotion }
+      //   }]
+      // )
+      db.User.findOne( { where: {
+        username: req.params.username
+        }
+      })
+      .then(function(user) {
+        if (user) {
+
+          db.Word.findAll( { where:
+            { emotion: req.params.emotion,
+              userId: user.id
+            },
+            order: [['frequency', 'DESC']],
+            attributes: ['word', 'frequency', 'averageSentiment']
+          })
+          .then(function(words) {
+            if (words) {
+              res.status(200).send(words);
+            } else {
+              res.sendStatus(400);
+            }
+          })
+          .catch(function(error) {
+            res.status(400).send(error);
+
+          });
+
+        } else {
+          res.sendStatus(400);
+        }
+      })
+      .catch(function(error) {
+        res.status(400).send(error);
+      });
+
+    }
+
   }
 
 };

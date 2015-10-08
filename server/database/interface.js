@@ -15,6 +15,7 @@ var schema;
 var User;
 var Entry;
 var Prompt;
+var Word;
 var shouldForce;
 
 // Read NODE_DB_ENV variable to see if we are entering
@@ -54,11 +55,17 @@ Entry.schema(schema);
 Prompt = db.define('prompt', models.Prompt.attributes, models.Prompt.options);
 Prompt.schema(schema);
 
+Word = db.define('word', models.Word.attributes, models.Word.options);
+Word.schema(schema);
+
 // These lines set up the foreign key within Entry (userId)
 // and create the methods {Entry.setUser, Entry.getUser} and
 // {User.setEntries, User.getEntries}.
 Entry.belongsTo(User);
 User.hasMany(Entry);
+
+Word.belongsTo(User);
+User.hasMany(Word);
 
 // If NODE_DB_ENV is set to 'reset' when this code executes,
 // the sequelize instance will drop the tables before creating
@@ -89,5 +96,6 @@ module.exports = {
   User: User,
   Entry: Entry,
   Prompt: Prompt,
+  Word: Word,
   init: init
 };
